@@ -27,6 +27,7 @@ app.get('/talk',function(req,res){
     obj.temperature_two = query.t2  || 0;
     obj.moisture        = query.mst || 0;
     obj.water           = query.wtr || 0;
+    obj.time            = query.tme || 0;
 
     fs.writeFile(path.join(__dirname, '/info', 'info.json'), JSON.stringify(obj), function(err) {
       if(err) {
