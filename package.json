@@ -1,0 +1,19 @@
+{
+  "name": "herbangarden",
+  "version": "1.0.0",
+  "description": "Herban Garden Server",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sbulkley/herbangarden.git"
+  },
+  "author": "samb",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sbulkley/herbangarden/issues"
+  },
+  "homepage": "https://github.com/sbulkley/herbangarden",
+  "dependencies": {
+    "express": "^4.13.3"
+  }
+}
