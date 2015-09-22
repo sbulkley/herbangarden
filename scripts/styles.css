@@ -1,3 +1,11 @@
-#sexy {
-  font-size: 2em;
+html, body, div {
+    width: 100%;
+    padding: 0;
+    text-align: center;
+    font-family: 'Oswald', sans-serif;
+}
+
+#no {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
 }
