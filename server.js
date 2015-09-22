@@ -22,11 +22,12 @@ app.get('/talk',function(req,res){
   var query = uri.query;
   if(query.key === process.env.KEY) {
     var obj = {};
+
     obj.temperature_one = query.t1  || 0;
     obj.temperature_two = query.t2  || 0;
     obj.moisture        = query.mst || 0;
     obj.water           = query.wtr || 0;
-    obj.time            = query.tme || 0;
+
     fs.writeFile(path.join(__dirname, '/info', 'info.json'), JSON.stringify(obj), function(err) {
       if(err) {
         res.sendStatus(417);
