@@ -20,9 +20,9 @@ app.get('/',function(req,res){
   res.sendFile('index.html');
 });
 
-app.get('/listen',function(req,res,next){
+app.get('/listen', function(req,res,next){
   res.sendFile(path.join(__dirname, '/info', 'info.json'));
-  next();
+  //next();
 });
 
 app.get('/talk',function(req,res){
