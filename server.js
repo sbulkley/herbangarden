@@ -5,7 +5,7 @@ var url     = require('url');
 var fs      = require('fs');
 
 var allowCrossDomain = function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', 'herban.sambulkley.com');
+    res.header('Access-Control-Allow-Origin', 'http://herban.sambulkley.com');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     next();
