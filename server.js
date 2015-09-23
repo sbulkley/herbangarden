@@ -4,17 +4,25 @@ var path    = require("path");
 var url     = require('url');
 var fs      = require('fs');
 
-app.set('port', (process.env.PORT || 5000));
+var allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', 'herban.sambulkley.com');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+}
 
+app.set('port', (process.env.PORT || 5000));
 app.use(express.static(__dirname + '/pages'));
 app.use(express.static(__dirname + '/scripts'));
+app.use(allowCrossDomain);
 
 app.get('/',function(req,res){
   res.sendFile('index.html');
 });
 
-app.get('/listen',function(req,res){
+app.get('/listen',function(req,res,next){
   res.sendFile(path.join(__dirname, '/info', 'info.json'));
+  next();
 });
 
 app.get('/talk',function(req,res){
