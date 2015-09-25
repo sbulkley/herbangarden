@@ -1,8 +1,8 @@
-var express = require("express");
+var express = require('express');
 var app     = express();
-var path    = require("path");
+var path    = require('path');
 var url     = require('url');
-var fs      = require('fs');
+var redis   = require('redis');
 
 var allowCrossDomain = function(req, res, next) {
     res.header('Access-Control-Allow-Origin', 'http://herban.sambulkley.com');
@@ -21,9 +21,26 @@ app.get('/',function(req,res){
 });
 
 app.get('/listen', function(req,res,next){
-  res.sendFile(path.join(__dirname, '/info', 'info.json'));
-  //next();
+  var client = redis.createClient(process.env.REDISPORT, process.env.REDISURL, {no_ready_check: true});
+  client.auth('', function (err) {
+    if (err) throw err;
+    else {
+      client.on('connect', function(err) {
+        if (err) throw err;
+        else {
+          client.get('info', function(err, reply) {
+            if (err) throw err;
+            else {
+              res.send(reply);
+            }
+          });
+        }
+      });
+    }
+  });
 });
+
+//res.sendFile(path.join(__dirname, '/info', 'info.json'));
 
 app.get('/talk',function(req,res){
   var uri = url.parse(req.url, true);
@@ -37,14 +54,35 @@ app.get('/talk',function(req,res){
     obj.water           = query.wtr || 0;
     obj.time            = query.tme || 0;
 
+    var client = redis.createClient(process.env.REDISPORT, process.env.REDISURL, {no_ready_check: true});
+    client.auth('', function (err) {
+      if (err) throw err;
+      else {
+        client.on('connect', function(err) {
+          if (err) throw err;
+          else {
+            client.set('info', JSON.stringify(obj), function(err, reply) {
+              if (err) throw err;
+              else {
+                console.log("+HG: it is written.");
+                res.sendStatus(200);
+              }
+            });
+          }
+        });
+      }
+    });
+
+    /*
     fs.writeFile(path.join(__dirname, '/info', 'info.json'), JSON.stringify(obj), function(err) {
       if(err) {
         res.sendStatus(417);
         return console.log(err);
       }
       res.sendStatus(200);
-      console.log("+HG: it is written.");
     });
+    */
+
   } else {
     res.sendStatus(403);
   } 
